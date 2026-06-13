@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/db");
 
-// Przedmiot pomaga nam grupować zadania, np. JavaScript lub Bazy danych.
+// Przedmiot pomaga nam grupować zadania, np. JavaScript lub Bazy danych
 const Subject = sequelize.define("Subject", {
   name: {
     type: DataTypes.STRING,

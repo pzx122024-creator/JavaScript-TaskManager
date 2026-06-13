@@ -10,13 +10,14 @@ const allowedColors = [
   "#7b61a8"
 ];
 
+// Pobiera tylko przedmioty zalogowanego użytkownika i sortuje je alfabetycznie
 async function getSubjects(req, res, next) {
   try {
     const subjects = await Subject.findAll({
       where: { userId: req.session.user.id },
       order: [["name", "ASC"]]
     });
-
+      // przekazanie do widoku 
     res.render("subjects/index", {
       title: "Przedmioty",
       subjects,

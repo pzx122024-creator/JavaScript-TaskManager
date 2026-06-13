@@ -80,7 +80,7 @@ async function login(req, res, next) {
       );
     }
 
-    // W sesji przechowujemy tylko dane potrzebne podczas korzystania z aplikacji.
+    // W sesji przechowujemy tylko dane potrzebne podczas korzystania z aplikacji
     req.session.user = { id: user.id, email: user.email };
     res.redirect("/tasks");
   } catch (error) {

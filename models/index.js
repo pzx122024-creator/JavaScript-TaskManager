@@ -2,7 +2,7 @@ const User = require("./User");
 const Subject = require("./Subject");
 const Task = require("./Task");
 
-// Definiujemy relacje w jednym miejscu, aby łatwo pokazać strukturę bazy.
+// Definiujemy relacje w jednym miejscu, aby łatwo pokazać strukturę bazy
 User.hasMany(Subject, { foreignKey: "userId", onDelete: "CASCADE" });
 Subject.belongsTo(User, { foreignKey: "userId" });
 

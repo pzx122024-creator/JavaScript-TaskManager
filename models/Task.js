@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/db");
 
-// Model zadania zawiera pola potrzebne w planerze studenckim.
+// Model zadania zawiera pola potrzebne w planerze studenckim
 const Task = sequelize.define("Task", {
   title: {
     type: DataTypes.STRING,
