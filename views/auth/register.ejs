@@ -1,0 +1,27 @@
+<%- include("../partials/header") %>
+
+<section class="auth-card">
+  <p class="eyebrow">Pierwszy krok</p>
+  <h1>Utwórz konto</h1>
+  <p class="muted">Hasło musi mieć co najmniej 6 znaków.</p>
+
+  <%- include("../partials/messages", { error, success: "" }) %>
+
+  <form class="stack-form js-validate-password" action="/register" method="post">
+    <label>
+      E-mail
+      <input type="email" name="email" required autocomplete="email">
+    </label>
+
+    <label>
+      Hasło
+      <input type="password" name="password" minlength="6" required autocomplete="new-password">
+    </label>
+
+    <button class="button button-primary" type="submit">Zarejestruj się</button>
+  </form>
+
+  <p class="auth-switch">Masz już konto? <a href="/login">Przejdź do logowania</a></p>
+</section>
+
+<%- include("../partials/footer") %>

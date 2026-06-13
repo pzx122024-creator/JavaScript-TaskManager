@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %> | TaskManager</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/validation.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="logo" href="/">Task<span>Manager</span></a>
+
+    <% if (currentUser) { %>
+      <nav class="navigation" aria-label="Główna nawigacja">
+        <a href="/tasks">Zadania</a>
+        <a href="/subjects">Przedmioty</a>
+        <form action="/logout" method="post">
+          <button class="link-button" type="submit">Wyloguj</button>
+        </form>
+      </nav>
+    <% } %>
+  </header>
+
+  <main class="page">

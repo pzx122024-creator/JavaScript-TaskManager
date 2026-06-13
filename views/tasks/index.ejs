@@ -1,0 +1,156 @@
+<%- include("../partials/header") %>
+
+<section class="hero">
+  <div>
+    <p class="eyebrow">Panel użytkownika</p>
+    <h1>Moje zadania</h1>
+    <p class="muted">Zalogowano jako <strong><%= currentUser.email %></strong></p>
+  </div>
+  <a class="button button-secondary" href="/subjects">Zarządzaj przedmiotami</a>
+</section>
+
+<%- include("../partials/messages", { error, success }) %>
+
+<section class="statistics" aria-label="Statystyki zadań">
+  <article class="stat-card stat-primary">
+    <span>Do zrobienia</span>
+    <strong><%= statistics.todo %></strong>
+  </article>
+  <article class="stat-card stat-danger">
+    <span>Po terminie</span>
+    <strong><%= statistics.overdue %></strong>
+  </article>
+  <article class="stat-card stat-success">
+    <span>Zakończone</span>
+    <strong><%= statistics.done %></strong>
+  </article>
+</section>
+
+<section class="panel">
+  <h2>Dodaj nowe zadanie</h2>
+
+  <form class="task-form js-task-form" action="/tasks" method="post">
+    <label>
+      Nazwa zadania
+      <input type="text" name="title" minlength="2" maxlength="100" required placeholder="np. Przygotować prezentację">
+    </label>
+
+    <label>
+      Termin
+      <input type="date" name="dueDate" required>
+    </label>
+
+    <label>
+      Priorytet
+      <select name="priority" required>
+        <option value="low">Niski</option>
+        <option value="medium" selected>Średni</option>
+        <option value="high">Wysoki</option>
+      </select>
+    </label>
+
+    <label>
+      Przedmiot
+      <select name="subjectId">
+        <option value="">Bez przedmiotu</option>
+        <% subjects.forEach((subject) => { %>
+          <option value="<%= subject.id %>"><%= subject.name %></option>
+        <% }) %>
+      </select>
+    </label>
+
+    <label class="full-width">
+      Opis (opcjonalnie)
+      <textarea name="description" rows="3" maxlength="500" placeholder="Krótka informacja o zadaniu"></textarea>
+    </label>
+
+    <button class="button button-primary" type="submit">Dodaj zadanie</button>
+  </form>
+</section>
+
+<section class="filter-panel">
+  <div>
+    <p class="eyebrow">Szybkie wyszukiwanie</p>
+    <h2>Filtruj zadania</h2>
+  </div>
+
+  <form class="filter-form" action="/tasks" method="get">
+    <label>
+      Status
+      <select name="status">
+        <option value="all" <%= filters.status === "all" ? "selected" : "" %>>Wszystkie</option>
+        <option value="todo" <%= filters.status === "todo" ? "selected" : "" %>>Do zrobienia</option>
+        <option value="done" <%= filters.status === "done" ? "selected" : "" %>>Zakończone</option>
+      </select>
+    </label>
+
+    <label>
+      Priorytet
+      <select name="priority">
+        <option value="all" <%= filters.priority === "all" ? "selected" : "" %>>Wszystkie</option>
+        <option value="low" <%= filters.priority === "low" ? "selected" : "" %>>Niski</option>
+        <option value="medium" <%= filters.priority === "medium" ? "selected" : "" %>>Średni</option>
+        <option value="high" <%= filters.priority === "high" ? "selected" : "" %>>Wysoki</option>
+      </select>
+    </label>
+
+    <label>
+      Przedmiot
+      <select name="subjectId">
+        <option value="all">Wszystkie</option>
+        <% subjects.forEach((subject) => { %>
+          <option value="<%= subject.id %>" <%= filters.subjectId === String(subject.id) ? "selected" : "" %>>
+            <%= subject.name %>
+          </option>
+        <% }) %>
+      </select>
+    </label>
+
+    <button class="button button-primary" type="submit">Zastosuj</button>
+    <a class="button button-secondary" href="/tasks">Wyczyść</a>
+  </form>
+</section>
+
+<%
+  const todoTasks = tasks.filter((task) => task.status === "todo");
+  const doneTasks = tasks.filter((task) => task.status === "done");
+  const priorityNames = { low: "Niski", medium: "Średni", high: "Wysoki" };
+%>
+
+<section class="task-columns">
+  <div>
+    <div class="section-heading">
+      <h2>Do zrobienia</h2>
+      <span class="counter"><%= todoTasks.length %></span>
+    </div>
+
+    <div class="task-list">
+      <% if (todoTasks.length === 0) { %>
+        <p class="empty-state">Brak zadań pasujących do wybranych filtrów.</p>
+      <% } %>
+
+      <% todoTasks.forEach((task) => { %>
+        <%- include("taskCard", { task, priorityNames, today }) %>
+      <% }) %>
+    </div>
+  </div>
+
+  <div>
+    <div class="section-heading">
+      <h2>Zakończone</h2>
+      <span class="counter"><%= doneTasks.length %></span>
+    </div>
+
+    <div class="task-list">
+      <% if (doneTasks.length === 0) { %>
+        <p class="empty-state">Brak zakończonych zadań pasujących do filtrów.</p>
+      <% } %>
+
+      <% doneTasks.forEach((task) => { %>
+        <%- include("taskCard", { task, priorityNames, today }) %>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<%- include("../partials/footer") %>

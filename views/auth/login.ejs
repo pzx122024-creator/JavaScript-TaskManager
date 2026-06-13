@@ -1,0 +1,27 @@
+<%- include("../partials/header") %>
+
+<section class="auth-card">
+  <p class="eyebrow">Planer studencki</p>
+  <h1>Zaloguj się</h1>
+  <p class="muted">Twoje zadania są widoczne tylko na Twoim koncie.</p>
+
+  <%- include("../partials/messages", { error, success }) %>
+
+  <form class="stack-form" action="/login" method="post">
+    <label>
+      E-mail
+      <input type="email" name="email" required autocomplete="email">
+    </label>
+
+    <label>
+      Hasło
+      <input type="password" name="password" required autocomplete="current-password">
+    </label>
+
+    <button class="button button-primary" type="submit">Zaloguj się</button>
+  </form>
+
+  <p class="auth-switch">Nie masz konta? <a href="/register">Załóż konto</a></p>
+</section>
+
+<%- include("../partials/footer") %>

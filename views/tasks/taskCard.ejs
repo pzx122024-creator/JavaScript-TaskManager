@@ -1,0 +1,38 @@
+<article
+  class="task-card <%= task.status === 'done' ? 'task-done' : '' %> <%= task.status === 'todo' && task.dueDate < today ? 'task-overdue' : '' %>"
+  style="--subject-color: <%= task.Subject ? task.Subject.color : '#98a2b3' %>"
+>
+  <div class="task-card-top">
+    <span class="priority priority-<%= task.priority %>">
+      <%= priorityNames[task.priority] %>
+    </span>
+    <time datetime="<%= task.dueDate %>">
+      <%= task.status === "todo" && task.dueDate < today ? "Po terminie · " : "" %><%= task.dueDate %>
+    </time>
+  </div>
+
+  <h3><%= task.title %></h3>
+
+  <% if (task.description) { %>
+    <p><%= task.description %></p>
+  <% } %>
+
+  <p class="subject-badge">
+    <span class="subject-dot"></span>
+    <%= task.Subject ? task.Subject.name : "Bez przedmiotu" %>
+  </p>
+
+  <div class="task-actions">
+    <form action="/tasks/<%= task.id %>/status" method="post">
+      <button class="button button-small button-primary" type="submit">
+        <%= task.status === "done" ? "Przywróć" : "Zrobione" %>
+      </button>
+    </form>
+
+    <a class="button button-small button-secondary" href="/tasks/<%= task.id %>/edit">Edytuj</a>
+
+    <form class="js-confirm-delete" action="/tasks/<%= task.id %>/delete" method="post">
+      <button class="button button-small button-danger" type="submit">Usuń</button>
+    </form>
+  </div>
+</article>

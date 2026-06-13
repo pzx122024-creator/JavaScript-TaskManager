@@ -1,0 +1,56 @@
+<%- include("../partials/header") %>
+
+<section class="hero">
+  <div>
+    <p class="eyebrow">Organizacja nauki</p>
+    <h1>Przedmioty</h1>
+    <p class="muted">Kolor przedmiotu pomaga szybciej rozpoznawać zadania.</p>
+  </div>
+  <a class="button button-secondary" href="/tasks">Wróć do zadań</a>
+</section>
+
+<%- include("../partials/messages", { error, success }) %>
+
+<section class="panel narrow-panel">
+  <h2>Dodaj przedmiot</h2>
+  <form class="subject-form" action="/subjects" method="post">
+    <label class="grow">
+      Nazwa przedmiotu
+      <input type="text" name="name" minlength="2" maxlength="50" required placeholder="np. JavaScript">
+    </label>
+
+    <fieldset class="color-fieldset">
+      <legend>Kolor</legend>
+      <div class="color-options">
+        <% allowedColors.forEach((color, index) => { %>
+          <label class="color-option" title="Wybierz kolor">
+            <input type="radio" name="color" value="<%= color %>" <%= index === 0 ? "checked" : "" %>>
+            <span style="--subject-color: <%= color %>"></span>
+          </label>
+        <% }) %>
+      </div>
+    </fieldset>
+
+    <button class="button button-primary" type="submit">Dodaj</button>
+  </form>
+</section>
+
+<section class="subject-list">
+  <% if (subjects.length === 0) { %>
+    <p class="empty-state">Nie dodano jeszcze żadnego przedmiotu.</p>
+  <% } %>
+
+  <% subjects.forEach((subject) => { %>
+    <article class="subject-row" style="--subject-color: <%= subject.color %>">
+      <div class="subject-title">
+        <span class="subject-dot"></span>
+        <strong><%= subject.name %></strong>
+      </div>
+      <form class="js-confirm-delete" action="/subjects/<%= subject.id %>/delete" method="post">
+        <button class="button button-small button-danger" type="submit">Usuń</button>
+      </form>
+    </article>
+  <% }) %>
+</section>
+
+<%- include("../partials/footer") %>

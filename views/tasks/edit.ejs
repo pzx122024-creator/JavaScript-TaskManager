@@ -1,0 +1,53 @@
+<%- include("../partials/header") %>
+
+<section class="panel narrow-panel">
+  <p class="eyebrow">Zmiana danych</p>
+  <h1>Edytuj zadanie</h1>
+
+  <%- include("../partials/messages", { error, success: "" }) %>
+
+  <form class="stack-form js-task-form" action="/tasks/<%= task.id %>/edit" method="post">
+    <label>
+      Nazwa zadania
+      <input type="text" name="title" value="<%= task.title %>" minlength="2" maxlength="100" required>
+    </label>
+
+    <label>
+      Opis
+      <textarea name="description" rows="4" maxlength="500"><%= task.description || "" %></textarea>
+    </label>
+
+    <label>
+      Termin
+      <input type="date" name="dueDate" value="<%= task.dueDate %>" required>
+    </label>
+
+    <label>
+      Priorytet
+      <select name="priority" required>
+        <option value="low" <%= task.priority === "low" ? "selected" : "" %>>Niski</option>
+        <option value="medium" <%= task.priority === "medium" ? "selected" : "" %>>Średni</option>
+        <option value="high" <%= task.priority === "high" ? "selected" : "" %>>Wysoki</option>
+      </select>
+    </label>
+
+    <label>
+      Przedmiot
+      <select name="subjectId">
+        <option value="">Bez przedmiotu</option>
+        <% subjects.forEach((subject) => { %>
+          <option value="<%= subject.id %>" <%= task.subjectId === subject.id ? "selected" : "" %>>
+            <%= subject.name %>
+          </option>
+        <% }) %>
+      </select>
+    </label>
+
+    <div class="form-actions">
+      <button class="button button-primary" type="submit">Zapisz zmiany</button>
+      <a class="button button-secondary" href="/tasks">Anuluj</a>
+    </div>
+  </form>
+</section>
+
+<%- include("../partials/footer") %>
